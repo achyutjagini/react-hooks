@@ -1,0 +1,29 @@
+
+In this example, ChatAPI.subscribeToFriendStatus logs a message indicating 
+that it has subscribed to the friend's status, and after 2 seconds it calls the 
+handleStatusChange callback with an object indicating that the friend is online.
+
+ChatAPI.unsubscribeFromFriendStatus logs a message indicating that it has
+unsubscribed from the friend's status.
+
+This code is a simple example of how to use React's useEffect hook to 
+subscribe to a friend's 
+online status. The code uses the ChatAPI to subscribe to the friend's status and 
+receive updates. The useEffect hook is used to handle the side effects that occur
+when the component is first rendered and when it unmounts.
+
+The useEffect hook takes a callback function that is executed after the component 
+is rendered. In this case, the callback uses the ChatAPI.subscribeToFriendStatus
+method to subscribe to updates on the friend's status, and the 
+ChatAPI.unsubscribeFromFriendStatus
+method to unsubscribe when the component unmounts.
+
+The useState hook is used to store the friend's current status in the isOnline state
+variable. The handleStatusChange function updates the isOnline state with the new 
+status when it is received from the ChatAPI.
+
+Finally, the component returns 'Loading...' when the status is not yet available 
+and returns 'Online' or 'Offline' depending on the friend's current status.
+
+The code creates a React root using ReactDOM.createRoot and renders the FriendStatus
+component into the "mydiv" container element.

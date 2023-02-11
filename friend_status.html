@@ -1,0 +1,51 @@
+<head>
+    <title>counter</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"> </script>
+  </head>
+  <body>
+    <div id="mydiv"></div>
+  
+    <script type="text/babel">
+      const ChatAPI = {
+        subscribeToFriendStatus: (friendId, handleStatusChange) => {
+          console.log(`Subscribed to friend with id ${friendId}`);
+          setTimeout(() => {
+            handleStatusChange({
+              isOnline: true
+            });
+          }, 2000);
+        },
+        unsubscribeFromFriendStatus: (friendId, handleStatusChange) => {
+          console.log(`Unsubscribed from friend with id ${friendId}`);
+        },
+      };
+  
+      function FriendStatus(props) {
+        const [isOnline, setIsOnline] = React.useState(null);
+  
+        function handleStatusChange(status) {
+          setIsOnline(status.isOnline);
+        }
+  
+        React.useEffect(() => {
+          ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+          return () => {
+            ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+          };
+        });
+  
+        if (isOnline === null) {
+          return 'Loading...';
+        }
+        return isOnline ? 'Online' : 'Offline';
+      }
+  
+      const container=document.getElementById("mydiv");
+      const root =ReactDOM.createRoot(container);
+      root.render(<FriendStatus friend={{id:10}}/>);
+
+    </script>
+  </body>
+  
