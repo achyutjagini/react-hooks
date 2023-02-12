@@ -3,13 +3,32 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"> </script>
-  </head>
-  <body>
-    <div id="mydiv"></div>
+</head>
+<body>
+<div id="mydiv"></div>
   
-    <script type="text/babel">
-      const ChatAPI = {
-        subscribeToFriendStatus: (friendId, handleStatusChange) => {
+<script type="text/babel">
+
+/*
+This is a simple JavaScript code that defines an object named "ChatAPI". The object has
+two methods, subscribeToFriendStatus and unsubscribeFromFriendStatus.
+
+The subscribeToFriendStatus method takes two arguments, friendId and handleStatusChange. 
+When the method
+is called, it logs a message to the console indicating that a subscription has been made for a 
+friend with the specified friendId. It then sets a timeout for 2 seconds and, when it 
+elapses, calls the handleStatusChange function and passes an object with an isOnline
+property set to true as an argument.
+
+The unsubscribeFromFriendStatus method takes two arguments, friendId and 
+handleStatusChange. When the method is called, it logs a message to the console
+indicating that a subscription has been unsubscribed for a friend with the specified friendId.
+
+It is likely that this code is part of a larger application that is using 
+this ChatAPI object to handle subscriptions for friend statuses in a chat system.
+
+const ChatAPI = {
+        subscribeToFriendStatus: function (friendId, handleStatusChange) {
           console.log(`Subscribed to friend with id ${friendId}`);
           setTimeout(() => {
             handleStatusChange({
@@ -17,34 +36,97 @@
             });
           }, 2000);
         },
+        unsubscribeFromFriendStatus: function (friendId, handleStatusChange) {
+          console.log(`Unsubscribed from friend with id ${friendId}`);
+        },
+      
+      };
+
+
+After 2 seconds, the setTimeout function will invoke the callback function,
+which will in turn trigger the handleStatusChange function. The handleStatusChange
+function is passed the object with the isOnline property, which it can use
+to update the status of a friend in a chat system.
+
+Here, setTimeout is used to delay the call to handleStatusChange for 2 seconds. After
+2 seconds have passed, handleStatusChange is called and passed an object with
+the isOnline key set to true.
+
+
+
+*/
+
+  const ChatAPI = {
+        subscribeToFriendStatus: (friendId, handleStatusChange) => {
+          console.log(`Subscribed to friend with id ${friendId}`);
+  
+      //When isOnline changes the component is re-rendered
+          setTimeout(() => {
+            handleStatusChange({
+              isOnline: true
+            });
+          }, 2000);
+        
+        },
         unsubscribeFromFriendStatus: (friendId, handleStatusChange) => {
           console.log(`Unsubscribed from friend with id ${friendId}`);
         },
       };
   
-      function FriendStatus(props) {
-        const [isOnline, setIsOnline] = React.useState(null);
   
-        function handleStatusChange(status) {
+      function FriendStatus(props) {
+        
+        //first loading as isOnline is null
+        const [isOnline, setIsOnline] = React.useState(null);
+         
+        //setIsOnline is the function to change value of state variable isOnline
+
+        //The handleStatusChange function sets the value of isOnline to the value of status.isOnline
+
+        //status passed as argument
+        //status={
+        //      isOnline: true
+        //    }
+
+        function handleStatus(status) {
           setIsOnline(status.isOnline);
         }
-  
-        React.useEffect(() => {
-          ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
-          return () => {
-            ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+      
+    //start a side effect
+    React.useEffect(
+    
+  //from this line we get output subscribed to friend with id 10
+  //when subscribe to friend status called,timer started after 2 seconds
+      
+
+//handleStatusChange is a callback function that is passed as an argument 
+//to the ChatAPI.subscribeToFriendStatus method.
+
+//It is called every time the friend's status changes and is used to update
+// the state in response to this change. 
+
+      () => {
+ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatus);//props.friend.id=FriendId        
+
+//cleanup function is executed before the component is unmounted, or before the next render
+//not a usual function call
+      return () => {
+            ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatus);
           };
         });
   
         if (isOnline === null) {
           return 'Loading...';
         }
+
         return isOnline ? 'Online' : 'Offline';
       }
-  
-      const container=document.getElementById("mydiv");
-      const root =ReactDOM.createRoot(container);
-      root.render(<FriendStatus friend={{id:10}}/>);
+
+
+
+  const container=document.getElementById("mydiv");
+  const root =ReactDOM.createRoot(container);
+  root.render(<FriendStatus friend={{id:10}}/>);
 
     </script>
   </body>

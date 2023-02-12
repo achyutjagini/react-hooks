@@ -27,3 +27,110 @@ and returns 'Online' or 'Offline' depending on the friend's current status.
 
 The code creates a React root using ReactDOM.createRoot and renders the FriendStatus
 component into the "mydiv" container element.
+
+
+This is a simple JavaScript code that defines an object named "ChatAPI". The object has
+ two methods, subscribeToFriendStatus and unsubscribeFromFriendStatus.
+
+The subscribeToFriendStatus method takes two arguments, friendId and handleStatusChange. 
+When the method
+is called, it logs a message to the console indicating that a subscription has been made for a 
+friend with the specified friendId. It then sets a timeout for 2 seconds and, when it 
+elapses, calls the handleStatusChange function and passes an object with an isOnline
+property set to true as an argument.
+
+The unsubscribeFromFriendStatus method takes two arguments, friendId and 
+handleStatusChange. When the method is called, it logs a message to the console
+indicating that a subscription has been unsubscribed for a friend with the specified friendId.
+
+It is likely that this code is part of a larger application that is using 
+this ChatAPI object to handle subscriptions for friend statuses in a chat system.
+
+
+setTimeout(() => {
+            //argument is arrow function which calls handleStatusChange function 
+            //passes an object as argument
+
+            handleStatusChange(
+            //object with isOnline property set to true as argument
+            {
+              isOnline: true
+            }
+            );
+          },
+          2000);
+
+This is a JavaScript code that sets a timeout for 2 seconds (2000 milliseconds) 
+using the setTimeout function.
+
+The setTimeout function takes two arguments: a callback function and a delay
+in milliseconds. In this case, the callback function is an arrow function 
+that calls the handleStatusChange function and passes an object with an
+isOnline property set to true as an argument.
+
+After 2 seconds, the setTimeout function will invoke the callback function,
+which will in turn trigger the handleStatusChange function. The handleStatusChange
+function is passed the object with the isOnline property, which it can use
+to update the status of a friend in a chat system.
+
+
+function FriendStatus(props) {
+    const [isOnline, setIsOnline] = React.useState(null);
+  
+    function handleStatusChange(status) 
+    {
+    setIsOnline(status.isOnline);
+    }
+
+This is a functional component in React that renders the status of a friend in a chat system.
+
+The component has a state variable, isOnline, that is initialized using the useState hook from React.
+The useState hook takes a single argument, which is the initial value of the state. In this case, 
+the initial value of isOnline is null.
+
+The component also has a function named handleStatusChange that takes a single argument, status. 
+This function is called when the friend's status changes and updates the state variable isOnline
+using the setIsOnline function returned from the useState hook.
+
+The handleStatusChange function sets the value of isOnline to the value of status.isOnline, which is passed to it as an argument.
+
+This component is likely to be used in combination with the ChatAPI object to subscribe to
+and unsubscribe from updates to the status of a friend in a chat system.
+
+
+This is a code snippet written in React using the useEffect hook.
+
+The useEffect hook is used to add and manage the side effects in your functional components.
+In this case, the side effect is subscribing to the status changes of a friend through 
+the ChatAPI.subscribeToFriendStatus method.
+
+The handleStatusChange function is passed as a callback to this method, which will 
+be called every time the friend's status changes.
+
+The return statement inside the useEffect hook specifies a cleanup function. This function 
+is executed before the component is unmounted, or before the next render. In this case, the
+ cleanup function is unsubscribing from the friend's status updates using the 
+ ChatAPI.unsubscribeFromFriendStatus method.
+
+By doing this, we can ensure that the subscription and unsubscription
+ are properly managed and that we avoid any memory leaks in our application.
+
+
+ The reason "Unsubscribed from friend with id 10" is not outputted twice is
+  because the ChatAPI.unsubscribeFromFriendStatus method is being called
+   inside the useEffect cleanup function.
+
+In React, the useEffect cleanup function is called when a component is unmounted or re-rendered.
+When the component is re-rendered, the cleanup function from the previous render is called before
+the new useEffect hook is executed.
+
+So, in this case, when the component is re-rendered, the cleanup function will be called
+first and will log "Unsubscribed from friend with id 10". This will 
+ensure that the previous 
+subscription is cleaned up before a new one is created during the next render.
+
+
+No, the state variable isOnline can only be modified by calling setIsOnline within 
+the function component. State variables are designed to be private to the component 
+and their values can only be changed using the setState or useState
+function within the component.
