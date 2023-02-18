@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>counter</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"> </script>
+</head>
+<body>
+import "./styles.css";
+import { useEffect, useState } from "react";
+
+function App() {
+  const [data, setData] = useState();
+
+  //This code sets up an effect in a function component using the
+  // useEffect hook. The effect is triggered after the component 
+  //is mounted, because the second argument to useEffect is an empty array [], which means that the effect has no dependencies and should only be run once when the component is first mounted.
+
+  //Inside the effect function, it makes an HTTP GET request to a URL 
+  ("https://jsonplaceholder.typicode.com/posts") using the fetch function. The response from the server is then parsed as JSON using the json() method of the response object, and the resulting data is stored in the data state variable using the setData function.
+
+  //The effect has no cleanup function, so it doesn't need to return anything. The effect simply
+   fetches data and sets it to the state variable data one time when the component mounts.
+
+  //This code is a common pattern in React for fetching data from an API and 
+  //updating the component's state with the result. The empty dependency 
+  //array means that the effect should only run once when the component mounts, 
+  //and not re-run every time the component updates.
+
+  //.json() is a method in the Response object of the Fetch API that parses
+  // the body of the response as a JSON object.
+
+  //When a network request is made using fetch(), the server returns
+  // the response in the form of a stream of data. The response object
+  //represents that stream of data, and we need to parse it to access 
+   //the actual content.
+  
+  //.json() method reads the response stream to completion and returns
+  // a Promise that resolves with the result of parsing the response
+  // body as JSON. This method can be used to convert a JSON response
+  // from an API into a JavaScript object that can be used in our application.
+  
+  //In summary, the first .then() method is used to parse the response as JSON, while
+  // the second .then() method is used to update the state with the fetched data.
+
+if first .then is removed will it work
+//No, if the first .then() method that converts the HTTP response to a JSON object
+// is removed, the second .then() method that updates the data state variable with
+ // the JSON data will not work as expected.
+
+//The reason for this is that the HTTP response body is not automatically
+// converted to a JSON object, and therefore the second .then() method needs
+// to be called on the response object after it has been successfully retrieved.
+
+//In short, the first .then() method is required to properly convert the response 
+//object to a JSON object, which can then be used to update the state variable using
+// the second .then() method.
+  
+//In React, the className attribute is used instead of the standard class
+// attribute to specify CSS classes for an element. This is because class
+// is a reserved keyword in JavaScript.
+
+//The className attribute is commonly used in React component's render method
+// to specify the CSS classes that should be applied to the root 
+// element of the component.
+
+//By using data &&, we are checking if data exists and is truthy 
+//before attempting to map over it. This is a defensive programming
+// technique to avoid errors that can occur when we try to map over a 
+//variable that does not exist or is falsy (e.g. null or undefined).
+
+  useEffect(
+    () => { 
+       fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+
+  return (
+    <div className="App">
+      <table>
+        <thead> Table </thead>
+        <tr>
+          {/* table row */}
+          <th>UserID</th>
+          <th>Title</th>
+          <th>Body</th>
+        </tr>
+        <tbody>
+          {/* post is each json entry in the website*/}
+          {data &&
+            data.map((post) => {
+              return (
+                <tr key={post.id}>
+                  <td>{post.userId}</td>
+                  <td>{post.title}</td>
+                  <td>{post.body}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+export default App;
