@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+<script type="text/javascript">
+objects=[{id:1,Age:23,Name:"Ram",value:"cod"}]
+</script>
+<table id="mytable">
+
+<script type="text/javascript">
+content=objects.map((ele)=>
+{return`
+    <tr>
+    <td>${ele.Age}</td>
+    <td>${ele.Name}</td>
+    <td>${ele.value}</td>
+    </tr>
+`   
+})
+document.getElementById("mytable").innerHTML=content
+</script>
+</table>
+    
+</body>
+</html>

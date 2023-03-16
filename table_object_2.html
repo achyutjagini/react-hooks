@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <table id="myTable"></table>
+
+    <script type="text/javascript">
+        const objects = [{id:1, Age:23, Name:"Ram", value:"cod"},
+        {id:2, Age:24, Name:"Rapport", value:"kashin"}];
+
+  //By using template literals in this example, we can 
+  //easily concatenate
+  //the HTML code with the property values of the ele object.
+  //table woould be array of <tr></tr>'s
+  //by using join it is converted to single string
+
+        const table = objects.map((ele) => {
+            return `
+                <tr>
+                    <td>${ele.Age}</td>
+                    <td>${ele.Name}</td>
+                    <td>${ele.value}</td>
+                </tr>
+            `;
+        }).join("")
+
+        document.getElementById("myTable").innerHTML = table;
+    </script>
+</body>
+</html>
